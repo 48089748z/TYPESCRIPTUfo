@@ -24,9 +24,22 @@ var mainState = (function (_super) {
         this.ufo = this.add.sprite(this.world.centerX, this.world.centerY, 'ufo');
         this.ufo.scale.setTo(scale - 0.05, scale - 0.05);
         this.ufo.anchor.setTo(0.5, 0.5);
+        this.cursor = this.input.keyboard.createCursorKeys();
     };
     mainState.prototype.update = function () {
         _super.prototype.update.call(this);
+        if (this.cursor.left.isDown) {
+            this.ufo.x = this.ufo.x - 5;
+        }
+        if (this.cursor.right.isDown) {
+            this.ufo.x = this.ufo.x + 5;
+        }
+        if (this.cursor.down.isDown) {
+            this.ufo.y = this.ufo.y + 5;
+        }
+        if (this.cursor.up.isDown) {
+            this.ufo.y = this.ufo.y - 5;
+        }
     };
     return mainState;
 })(Phaser.State);

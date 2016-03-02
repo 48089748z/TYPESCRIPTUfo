@@ -4,7 +4,6 @@ class mainState extends Phaser.State {
     game: Phaser.Game;
     private ufo:Phaser.Sprite;
     private cursor:Phaser.CursorKeys;
-
     preload():void {
         super.preload();
 
@@ -24,12 +23,27 @@ class mainState extends Phaser.State {
         this.ufo = this.add.sprite(this.world.centerX, this.world.centerY, 'ufo');
         this.ufo.scale.setTo(scale - 0.05, scale - 0.05);
         this.ufo.anchor.setTo(0.5, 0.5);
+        this.cursor = this.input.keyboard.createCursorKeys();
     }
 
     update():void {
         super.update();
+
+        if (this.cursor.left.isDown){
+                this.ufo.x = this.ufo.x-5;
+        }
+        if (this.cursor.right.isDown){
+            this.ufo.x = this.ufo.x+5;
+        }
+        if (this.cursor.down.isDown){
+            this.ufo.y = this.ufo.y+5;
+        }
+        if (this.cursor.up.isDown){
+            this.ufo.y = this.ufo.y-5;
+        }
     }
 }
+
 class SimpleGame {
     game:Phaser.Game;
     constructor()

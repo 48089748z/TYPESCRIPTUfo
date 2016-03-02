@@ -11,9 +11,9 @@ var mainState = (function (_super) {
     }
     mainState.prototype.preload = function () {
         _super.prototype.preload.call(this);
-        this.load.image('ufo', 'assets/UFO.png');
-        this.load.image('pickup', 'assets/Pickup.png');
-        this.load.image('background', 'assets/Background.png');
+        this.load.image('ufo', 'assets/UFO_low.png');
+        this.load.image('pickup', 'assets/Pickup_low.png');
+        this.load.image('background', 'assets/Background_low.png');
     };
     mainState.prototype.create = function () {
         _super.prototype.create.call(this);

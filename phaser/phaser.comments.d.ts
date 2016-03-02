@@ -12220,7 +12220,7 @@ declare module Phaser {
         * If you do not desire this action then provide URLs and / or a data object.
         * 
         * @param key Unique asset key of the texture atlas file.
-        * @param textureURL URL of the texture atlas image file. If undefined or `null` the url will be set to `<key>.png`, i.e. if `key` was "alien" then the URL will be "alien.png".
+        * @param textureURL URL of the texture atlas image file. If undefined or `null` the url will be set to `<key>Background.png`, i.e. if `key` was "alien" then the URL will be "alien.png".
         * @param atlasURL URL of the texture atlas data file. If undefined or `null` and no atlasData is given, the url will be set to `<key>.json`, i.e. if `key` was "alien" then the URL will be "alien.json".
         * @param atlasData A JSON or XML data object. You don't need this if the data is being loaded from a URL.
         * @param format The format of the data. Can be Phaser.Loader.TEXTURE_ATLAS_JSON_ARRAY (the default), Phaser.Loader.TEXTURE_ATLAS_JSON_HASH or Phaser.Loader.TEXTURE_ATLAS_XML_STARLING.
@@ -12262,7 +12262,7 @@ declare module Phaser {
         * If you do not desire this action then provide URLs and / or a data object.
         * 
         * @param key Unique asset key of the texture atlas file.
-        * @param textureURL URL of the texture atlas image file. If undefined or `null` the url will be set to `<key>.png`, i.e. if `key` was "alien" then the URL will be "alien.png".
+        * @param textureURL URL of the texture atlas image file. If undefined or `null` the url will be set to `<key>Background.png`, i.e. if `key` was "alien" then the URL will be "alien.png".
         * @param atlasURL URL of the texture atlas data file. If undefined or `null` and no atlasData is given, the url will be set to `<key>.json`, i.e. if `key` was "alien" then the URL will be "alien.json".
         * @param atlasData A JSON data object. You don't need this if the data is being loaded from a URL.
         * @return This Loader instance.
@@ -12303,7 +12303,7 @@ declare module Phaser {
         * If you do not desire this action then provide URLs and / or a data object.
         * 
         * @param key Unique asset key of the texture atlas file.
-        * @param textureURL URL of the texture atlas image file. If undefined or `null` the url will be set to `<key>.png`, i.e. if `key` was "alien" then the URL will be "alien.png".
+        * @param textureURL URL of the texture atlas image file. If undefined or `null` the url will be set to `<key>Background.png`, i.e. if `key` was "alien" then the URL will be "alien.png".
         * @param atlasURL URL of the texture atlas data file. If undefined or `null` and no atlasData is given, the url will be set to `<key>.json`, i.e. if `key` was "alien" then the URL will be "alien.json".
         * @param atlasData A JSON data object. You don't need this if the data is being loaded from a URL.
         * @return This Loader instance.
@@ -12344,7 +12344,7 @@ declare module Phaser {
         * If you do not desire this action then provide URLs and / or a data object.
         * 
         * @param key Unique asset key of the texture atlas file.
-        * @param textureURL URL of the texture atlas image file. If undefined or `null` the url will be set to `<key>.png`, i.e. if `key` was "alien" then the URL will be "alien.png".
+        * @param textureURL URL of the texture atlas image file. If undefined or `null` the url will be set to `<key>Background.png`, i.e. if `key` was "alien" then the URL will be "alien.png".
         * @param atlasURL URL of the texture atlas data file. If undefined or `null` and no atlasData is given, the url will be set to `<key>.json`, i.e. if `key` was "alien" then the URL will be "alien.xml".
         * @param atlasData An XML data object. You don't need this if the data is being loaded from a URL.
         * @return This Loader instance.
@@ -12460,7 +12460,7 @@ declare module Phaser {
         * If you do not desire this action then provide URLs and / or a data object.
         * 
         * @param key Unique asset key of the bitmap font.
-        * @param textureURL URL of the Bitmap Font texture file. If undefined or `null` the url will be set to `<key>.png`, i.e. if `key` was "megaFont" then the URL will be "megaFont.png".
+        * @param textureURL URL of the Bitmap Font texture file. If undefined or `null` the url will be set to `<key>Background.png`, i.e. if `key` was "megaFont" then the URL will be "megaFont.png".
         * @param atlasURL URL of the Bitmap Font atlas file (xml/json). If undefined or `null` AND `atlasData` is null, the url will be set to `<key>.xml`, i.e. if `key` was "megaFont" then the URL will be "megaFont.xml".
         * @param atlasData An optional Bitmap Font atlas in string form (stringified xml/json).
         * @param xSpacing If you'd like to add additional horizontal spacing between the characters then set the pixel value here.
@@ -12560,11 +12560,11 @@ declare module Phaser {
         * The URL can be relative or absolute. If the URL is relative the `Loader.baseURL` and `Loader.path` values will be prepended to it.
         * 
         * If the URL isn't specified the Loader will take the key and create a filename from that. For example if the key is "alien"
-        * and no URL is given then the Loader will set the URL to be "alien.png". It will always add `.png` as the extension.
+        * and no URL is given then the Loader will set the URL to be "alien.png". It will always add `Background.png` as the extension.
         * If you do not desire this action then provide a URL.
         * 
         * @param key Unique asset key of this image file.
-        * @param url URL of an image file. If undefined or `null` the url will be set to `<key>.png`, i.e. if `key` was "alien" then the URL will be "alien.png".
+        * @param url URL of an image file. If undefined or `null` the url will be set to `<key>Background.png`, i.e. if `key` was "alien" then the URL will be "alien.png".
         * @param overwrite If an unloaded file with a matching key already exists in the queue, this entry will overwrite it.
         * @return This Loader instance.
         */
@@ -12586,11 +12586,11 @@ declare module Phaser {
         * The URL can be relative or absolute. If the URL is relative the `Loader.baseURL` and `Loader.path` values will be prepended to it.
         * 
         * If the URL isn't specified the Loader will take the key and create a filename from that. For example if the key is "alien"
-        * and no URL is given then the Loader will set the URL to be "alien.png". It will always add `.png` as the extension.
+        * and no URL is given then the Loader will set the URL to be "alien.png". It will always add `Background.png` as the extension.
         * If you do not desire this action then provide a URL.
         * 
         * @param keys An array of unique asset keys of the image files.
-        * @param urls Optional array of URLs. If undefined or `null` the url will be set to `<key>.png`, i.e. if `key` was "alien" then the URL will be "alien.png". If provided the URLs array length must match the keys array length.
+        * @param urls Optional array of URLs. If undefined or `null` the url will be set to `<key>Background.png`, i.e. if `key` was "alien" then the URL will be "alien.png". If provided the URLs array length must match the keys array length.
         * @return This Loader instance.
         */
         images(keys: string[], urls?: string[]): Phaser.Loader;
@@ -12851,11 +12851,11 @@ declare module Phaser {
         * The URL can be relative or absolute. If the URL is relative the `Loader.baseURL` and `Loader.path` values will be prepended to it.
         * 
         * If the URL isn't specified the Loader will take the key and create a filename from that. For example if the key is "alien"
-        * and no URL is given then the Loader will set the URL to be "alien.png". It will always add `.png` as the extension.
+        * and no URL is given then the Loader will set the URL to be "alien.png". It will always add `Background.png` as the extension.
         * If you do not desire this action then provide a URL.
         * 
         * @param key Unique asset key of the sheet file.
-        * @param url URL of the sprite sheet file. If undefined or `null` the url will be set to `<key>.png`, i.e. if `key` was "alien" then the URL will be "alien.png".
+        * @param url URL of the sprite sheet file. If undefined or `null` the url will be set to `<key>Background.png`, i.e. if `key` was "alien" then the URL will be "alien.png".
         * @param frameWidth Width in pixels of a single frame in the sprite sheet.
         * @param frameHeight Height in pixels of a single frame in the sprite sheet.
         * @param frameMax How many frames in this sprite sheet. If not specified it will divide the whole image into frames. - Default: -1

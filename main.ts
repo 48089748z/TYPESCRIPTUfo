@@ -8,9 +8,9 @@ class mainState extends Phaser.State {
     preload():void {
         super.preload();
 
-        this.load.image('ufo', 'assets/UFO.png');
-        this.load.image('pickup', 'assets/Pickup.png');
-        this.load.image('background', 'assets/Background.png');
+        this.load.image('ufo', 'assets/UFO_low.png');
+        this.load.image('pickup', 'assets/Pickup_low.png');
+        this.load.image('background', 'assets/Background_low.png');
     }
 
     create():void {
@@ -30,18 +30,15 @@ class mainState extends Phaser.State {
         super.update();
     }
 }
-
 class SimpleGame {
     game:Phaser.Game;
-
-    constructor() {
+    constructor()
+    {
         this.game = new Phaser.Game(600, 600, Phaser.AUTO, 'gameDiv');
-
         this.game.state.add('main', mainState);
         this.game.state.start('main');
     }
 }
-
 window.onload = () => {
     var game = new SimpleGame();
 };

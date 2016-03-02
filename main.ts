@@ -44,4 +44,4 @@ class SimpleGame {
 
 window.onload = () => {
     var game = new SimpleGame();
-};git add 
+};

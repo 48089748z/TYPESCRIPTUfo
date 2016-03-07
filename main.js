@@ -17,31 +17,13 @@ var mainState = (function (_super) {
         this.load.image('ufo', 'assets/UFO_low.png');
         this.load.image('pickup', 'assets/Pickup_low.png');
         this.load.image('background', 'assets/Background_low.png');
-        this.load.image('0.0', 'assets/Background_low-0-0.png');
-        this.load.image('0.1', 'assets/Background_low-0-1.png');
-        this.load.image('0.2', 'assets/Background_low-0-2.png');
-        this.load.image('1.0', 'assets/Background_low-1-0.png');
-        this.load.image('1.1', 'assets/Background_low-1-1.png');
-        this.load.image('1.2', 'assets/Background_low-1-2.png');
-        this.load.image('2.0', 'assets/Background_low-2-0.png');
-        this.load.image('2.1', 'assets/Background_low-2-1.png');
-        this.load.image('2.2', 'assets/Background_low-2-2.png');
+        this.game.load.tilemap('tilemap', 'assets/tiles.json', null, Phaser.Tilemap.TILED_JSON);
         this.physics.startSystem(Phaser.Physics.ARCADE);
     };
     mainState.prototype.create = function () {
         _super.prototype.create.call(this);
-        var background = this.add.sprite(0, 0, 'background');
-        var scale = this.world.height / background.height;
-        background.scale.setTo(scale, scale);
-        this.ufo.scale.setTo(scale - 0.05, scale - 0.05);
-        this.ufo = this.add.sprite(this.world.centerX, this.world.centerY, 'ufo');
-        this.ufo.anchor.setTo(0.5, 0.5);
-        this.physics.enable(this.ufo);
-        this.cursor = this.input.keyboard.createCursorKeys();
-        this.ufo.body.maxVelocity.setTo(this.MAX_SPEED, this.MAX_SPEED); // x, y
-        this.ufo.body.drag.setTo(this.DRAG, this.DRAG);
-        this.ufo.body.collideWorldBounds = true;
-        this.ufo.body.bounce.setTo(0.8);
+        this.configMAP();
+        this.configUFO();
     };
     mainState.prototype.update = function () {
         _super.prototype.update.call(this);
@@ -62,6 +44,24 @@ var mainState = (function (_super) {
             this.ufo.body.acceleration.y = 0;
         }
     };
+    mainState.prototype.configMAP = function () {
+        this.map = this.game.add.tilemap('tilemap');
+        this.map.addTilesetImage('Background_low', 'tilemap');
+        var background = this.map.createLayer('world');
+        this.walls = this.map.createLayer('walls');
+        this.map.setCollisionBetween(1, 100, true, 'walls');
+    };
+    mainState.prototype.configUFO = function () {
+        this.ufo = this.add.sprite(this.world.centerX, this.world.centerY, 'ufo');
+        this.ufo.anchor.setTo(0.5, 0.5);
+        this.physics.enable(this.ufo);
+        this.cursor = this.input.keyboard.createCursorKeys();
+        this.ufo.body.maxVelocity.setTo(this.MAX_SPEED, this.MAX_SPEED); // x, y
+        this.ufo.body.drag.setTo(this.DRAG, this.DRAG);
+        this.ufo.body.collideWorldBounds = true;
+        this.ufo.body.bounce.setTo(0.8);
+    };
+    ;
     return mainState;
 })(Phaser.State);
 var SimpleGame = (function () {

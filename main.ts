@@ -48,7 +48,7 @@ class mainState extends Phaser.State {
     private configMAP()
     {
         this.map = this.game.add.tilemap('tilemap');
-        this.map.addTilesetImage('Background_low', 'tilemap');
+        this.map.addTilesetImage('Background_low', 'background');
         var background = this.map.createLayer('world');
         this.walls = this.map.createLayer('walls');
         this.map.setCollisionBetween(1, 100, true, 'walls');

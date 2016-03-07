@@ -5,7 +5,8 @@ class mainState extends Phaser.State {
     private ufo:Phaser.Sprite;
     private cursor:Phaser.CursorKeys;
     private MAX_SPEED:number = 300; // pixels/second
-    private ACCELERATION:number = 500; // pixels/second/second
+    private ACCELERATION:number = 500; // pixels/second
+    private DRAG:number = 200; //pixels/second
     preload():void {
         super.preload();
         this.load.image('ufo', 'assets/UFO_low.png');
@@ -28,6 +29,10 @@ class mainState extends Phaser.State {
         this.physics.enable(this.ufo);
         this.cursor = this.input.keyboard.createCursorKeys();
         this.ufo.body.maxVelocity.setTo(this.MAX_SPEED, this.MAX_SPEED); // x, y
+        this.ufo.body.drag.setTo(this.DRAG, this.DRAG);
+        this.ufo.body.collideWorldBounds = true;
+        this.ufo.body.bounce.setTo(0.8);
+
     }
 
     update():void
@@ -44,12 +49,11 @@ class mainState extends Phaser.State {
         }
         else if (this.cursor.down.isDown) {
             this.ufo.body.acceleration.y = this.ACCELERATION;
-        } else
+        }
+        else
         {
             this.ufo.body.acceleration.x = 0;
             this.ufo.body.acceleration.y = 0;
-            this.ufo.body.velocity.x = 0;
-            this.ufo.body.velocity.y = 0;
         }
     }
 }

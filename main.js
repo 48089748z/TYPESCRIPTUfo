@@ -9,7 +9,8 @@ var mainState = (function (_super) {
     function mainState() {
         _super.apply(this, arguments);
         this.MAX_SPEED = 300; // pixels/second
-        this.ACCELERATION = 500; // pixels/second/second
+        this.ACCELERATION = 500; // pixels/second
+        this.DRAG = 200; //pixels/second
     }
     mainState.prototype.preload = function () {
         _super.prototype.preload.call(this);
@@ -30,6 +31,9 @@ var mainState = (function (_super) {
         this.physics.enable(this.ufo);
         this.cursor = this.input.keyboard.createCursorKeys();
         this.ufo.body.maxVelocity.setTo(this.MAX_SPEED, this.MAX_SPEED); // x, y
+        this.ufo.body.drag.setTo(this.DRAG, this.DRAG);
+        this.ufo.body.collideWorldBounds = true;
+        this.ufo.body.bounce.setTo(0.8);
     };
     mainState.prototype.update = function () {
         _super.prototype.update.call(this);
@@ -48,8 +52,6 @@ var mainState = (function (_super) {
         else {
             this.ufo.body.acceleration.x = 0;
             this.ufo.body.acceleration.y = 0;
-            this.ufo.body.velocity.x = 0;
-            this.ufo.body.velocity.y = 0;
         }
     };
     return mainState;

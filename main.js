@@ -30,20 +30,11 @@ var mainState = (function (_super) {
     };
     mainState.prototype.create = function () {
         _super.prototype.create.call(this);
-        //var background;
+        var background = this.add.sprite(0, 0, 'background');
+        var scale = this.world.height / background.height;
+        background.scale.setTo(scale, scale);
+        this.ufo.scale.setTo(scale - 0.05, scale - 0.05);
         this.ufo = this.add.sprite(this.world.centerX, this.world.centerY, 'ufo');
-        var wall_00 = this.add.sprite(0, 0, '0.0');
-        var wall_01 = this.add.sprite(0, wall_00.height, '0.1');
-        var wall_02 = this.add.sprite(0, wall_00.height + wall_01.height, '0.2');
-        //  var wall_10  = this.add.sprite(0, 0, '1.0');
-        // var wall_11  = this.add.sprite(0, 0, '1.1');
-        // var wall_12  = this.add.sprite(0, 0, '1.2');
-        // var wall_20  = this.add.sprite(0, wall_20.width, '2.0');
-        // var wall_21  = this.add.sprite(wall_20.width, wall_21.width, '2.1');
-        // var wall_22  = this.add.sprite(wall_20.width+wall_21.width, wall2, '2.2');
-        // var scale = this.world.height / background.height;
-        //  background.scale.setTo(scale, scale);
-        // this.ufo.scale.setTo(scale - 0.05, scale - 0.05);
         this.ufo.anchor.setTo(0.5, 0.5);
         this.physics.enable(this.ufo);
         this.cursor = this.input.keyboard.createCursorKeys();

@@ -5,13 +5,13 @@ import DisplayObject = PIXI.DisplayObject;
 class mainState extends Phaser.State
 {
     game: Phaser.Game;
+    private pickups:Phaser.Group;
     private pickup:Phaser.Sprite;
     private ufo:Phaser.Sprite;
     private cursor:Phaser.CursorKeys;
     private MAX_SPEED:number = 300; // pixels/second
     private ACCELERATION:number = 500; // pixels/second
     private DRAG:number = 200; //pixels/second
-
     private walls:Phaser.TilemapLayer;
     private map:Phaser.Tilemap;
 
@@ -67,9 +67,14 @@ class mainState extends Phaser.State
         this.ufo.body.angularAcceleration = 200;
         this.ufo.body.maxAngular = 200;
     };
+
     private configPICKUPS():void
     {
-        var positions:Point[] = [
+        this.pickups.enableBody = true;
+        this.pickups = this.add.group();
+        this.map.createFromObjects('pickups', 101, 'pickup', 0, true, false, this.pickups);
+
+        /*var positions:Point[] = [
             new Point(300, 125), new Point(300, 475),
             new Point(125, 300), new Point(475, 300),
             new Point(175, 175), new Point(425, 175),
@@ -79,9 +84,11 @@ class mainState extends Phaser.State
         {
             var position = positions[x];
             this.pickup = new Phaser.Sprite(this.game, position.x, position.y, 'pickup');
-            this.pickup.anchor.setTo(0.5,0.5);
+            this.physics.enable(this.pickup);
+            this.pickup.body.angularVelocity = 200;
+            this.pickup.body.maxVelocity = 200;
             this.add.existing(this.pickup);
-        }
+        }*/
     }
 }
 class SimpleGame {

@@ -70,18 +70,24 @@ var mainState = (function (_super) {
     };
     ;
     mainState.prototype.configPICKUPS = function () {
-        var positions = [
+        this.pickups.enableBody = true;
+        this.pickups = this.add.group();
+        this.map.createFromObjects('pickups', 101, 'pickup', 0, true, false, this.pickups);
+        /*var positions:Point[] = [
             new Point(300, 125), new Point(300, 475),
             new Point(125, 300), new Point(475, 300),
             new Point(175, 175), new Point(425, 175),
             new Point(175, 425), new Point(425, 425),
         ];
-        for (var x = 0; x < positions.length; x++) {
+        for (var x = 0; x < positions.length; x++)
+        {
             var position = positions[x];
             this.pickup = new Phaser.Sprite(this.game, position.x, position.y, 'pickup');
-            this.pickup.anchor.setTo(0.5, 0.5);
+            this.physics.enable(this.pickup);
+            this.pickup.body.angularVelocity = 200;
+            this.pickup.body.maxVelocity = 200;
             this.add.existing(this.pickup);
-        }
+        }*/
     };
     return mainState;
 })(Phaser.State);

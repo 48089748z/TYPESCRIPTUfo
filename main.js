@@ -4,6 +4,8 @@ var __extends = (this && this.__extends) || function (d, b) {
     function __() { this.constructor = d; }
     d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
 };
+var Point = Phaser.Point;
+var DisplayObject = PIXI.DisplayObject;
 var mainState = (function (_super) {
     __extends(mainState, _super);
     function mainState() {
@@ -17,6 +19,7 @@ var mainState = (function (_super) {
         this.load.image('ufo', 'assets/UFO_low.png');
         this.load.image('pickup', 'assets/Pickup_low.png');
         this.load.image('background', 'assets/Background_low.png');
+        this.load.image('pickup', 'assets/Pickup_low.png');
         this.game.load.tilemap('tilemap', 'assets/tiles.json', null, Phaser.Tilemap.TILED_JSON);
         this.physics.startSystem(Phaser.Physics.ARCADE);
     };
@@ -24,9 +27,11 @@ var mainState = (function (_super) {
         _super.prototype.create.call(this);
         this.configMAP();
         this.configUFO();
+        this.configPICKUPS();
     };
     mainState.prototype.update = function () {
         _super.prototype.update.call(this);
+        this.physics.arcade.collide(this.ufo, this.walls);
         if (this.cursor.left.isDown) {
             this.ufo.body.acceleration.x = -this.ACCELERATION;
         }
@@ -60,8 +65,24 @@ var mainState = (function (_super) {
         this.ufo.body.drag.setTo(this.DRAG, this.DRAG);
         this.ufo.body.collideWorldBounds = true;
         this.ufo.body.bounce.setTo(0.8);
+        this.ufo.body.angularAcceleration = 200;
+        this.ufo.body.maxAngular = 200;
     };
     ;
+    mainState.prototype.configPICKUPS = function () {
+        var positions = [
+            new Point(300, 125), new Point(300, 475),
+            new Point(125, 300), new Point(475, 300),
+            new Point(175, 175), new Point(425, 175),
+            new Point(175, 425), new Point(425, 425),
+        ];
+        for (var x = 0; x < positions.length; x++) {
+            var position = positions[x];
+            this.pickup = new Phaser.Sprite(this.game, position.x, position.y, 'pickup');
+            this.pickup.anchor.setTo(0.5, 0.5);
+            this.add.existing(this.pickup);
+        }
+    };
     return mainState;
 })(Phaser.State);
 var SimpleGame = (function () {

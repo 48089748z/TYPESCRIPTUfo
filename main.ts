@@ -1,7 +1,11 @@
 /// <reference path="phaser/phaser.d.ts"/>
 
-class mainState extends Phaser.State {
+import Point = Phaser.Point;
+import DisplayObject = PIXI.DisplayObject;
+class mainState extends Phaser.State
+{
     game: Phaser.Game;
+    private pickup:Phaser.Sprite;
     private ufo:Phaser.Sprite;
     private cursor:Phaser.CursorKeys;
     private MAX_SPEED:number = 300; // pixels/second
@@ -11,34 +15,31 @@ class mainState extends Phaser.State {
     private walls:Phaser.TilemapLayer;
     private map:Phaser.Tilemap;
 
-    preload():void {
+    preload():void
+    {
         super.preload();
         this.load.image('ufo', 'assets/UFO_low.png');
         this.load.image('pickup', 'assets/Pickup_low.png');
         this.load.image('background', 'assets/Background_low.png');
+        this.load.image('pickup', 'assets/Pickup_low.png');
         this.game.load.tilemap('tilemap', 'assets/tiles.json', null, Phaser.Tilemap.TILED_JSON);
         this.physics.startSystem(Phaser.Physics.ARCADE);
     }
-    create():void {
+    create():void
+    {
         super.create();
         this.configMAP();
         this.configUFO();
+        this.configPICKUPS();
     }
     update():void
     {
         super.update();
-        if (this.cursor.left.isDown) {
-            this.ufo.body.acceleration.x = -this.ACCELERATION;
-        }
-        else if (this.cursor.right.isDown) {
-            this.ufo.body.acceleration.x = this.ACCELERATION;
-        }
-        else if (this.cursor.up.isDown) {
-            this.ufo.body.acceleration.y = -this.ACCELERATION;
-        }
-        else if (this.cursor.down.isDown) {
-            this.ufo.body.acceleration.y = this.ACCELERATION;
-        }
+        this.physics.arcade.collide(this.ufo, this.walls);
+        if (this.cursor.left.isDown) {this.ufo.body.acceleration.x = -this.ACCELERATION;}
+        else if (this.cursor.right.isDown) {this.ufo.body.acceleration.x = this.ACCELERATION;}
+        else if (this.cursor.up.isDown) {this.ufo.body.acceleration.y = -this.ACCELERATION;}
+        else if (this.cursor.down.isDown) {this.ufo.body.acceleration.y = this.ACCELERATION;}
         else
         {
             this.ufo.body.acceleration.x = 0;
@@ -63,12 +64,26 @@ class mainState extends Phaser.State {
         this.ufo.body.drag.setTo(this.DRAG, this.DRAG);
         this.ufo.body.collideWorldBounds = true;
         this.ufo.body.bounce.setTo(0.8);
+        this.ufo.body.angularAcceleration = 200;
+        this.ufo.body.maxAngular = 200;
     };
+    private configPICKUPS():void
+    {
+        var positions:Point[] = [
+            new Point(300, 125), new Point(300, 475),
+            new Point(125, 300), new Point(475, 300),
+            new Point(175, 175), new Point(425, 175),
+            new Point(175, 425), new Point(425, 425),
+        ];
+        for (var x = 0; x < positions.length; x++)
+        {
+            var position = positions[x];
+            this.pickup = new Phaser.Sprite(this.game, position.x, position.y, 'pickup');
+            this.pickup.anchor.setTo(0.5,0.5);
+            this.add.existing(this.pickup);
+        }
+    }
 }
-
-
-
-
 class SimpleGame {
     game:Phaser.Game;
     constructor()

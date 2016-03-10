@@ -8,6 +8,7 @@ class mainState extends Phaser.State
     private pickups:Phaser.Group;
     private pickup:Phaser.Sprite;
     private ufo:Phaser.Sprite;
+    private monster:Phaser.Sprite;
     private cursor:Phaser.CursorKeys;
     private MAX_SPEED:number = 300; // pixels/second
     private ACCELERATION:number = 500; // pixels/second
@@ -22,6 +23,7 @@ class mainState extends Phaser.State
         this.load.image('pickup', 'assets/Pickup_low.png');
         this.load.image('background', 'assets/Background_low.png');
         this.load.image('pickup', 'assets/Pickup_low.png');
+        this.load.image('monster', 'assets/monster_low.png');
         this.game.load.tilemap('tilemap', 'assets/tiles.json', null, Phaser.Tilemap.TILED_JSON);
         this.physics.startSystem(Phaser.Physics.ARCADE);
     }
@@ -30,16 +32,35 @@ class mainState extends Phaser.State
         super.create();
         this.configMAP();
         this.configUFO();
+        this.configMONSTER();
         this.configPICKUPS();
     }
     update():void
     {
         super.update();
         this.physics.arcade.collide(this.ufo, this.walls);
-        if (this.cursor.left.isDown) {this.ufo.body.acceleration.x = -this.ACCELERATION;}
-        else if (this.cursor.right.isDown) {this.ufo.body.acceleration.x = this.ACCELERATION;}
-        else if (this.cursor.up.isDown) {this.ufo.body.acceleration.y = -this.ACCELERATION;}
-        else if (this.cursor.down.isDown) {this.ufo.body.acceleration.y = this.ACCELERATION;}
+        this.physics.arcade.collide(this.monster, this.walls);
+        if (this.monster.overlap(this.ufo)){this.ufo.kill()}
+        if (this.cursor.left.isDown)
+        {
+            this.ufo.body.acceleration.x = -this.ACCELERATION;
+            this.monster.body.acceleration.x = -this.ACCELERATION;
+        }
+        else if (this.cursor.right.isDown)
+        {
+            this.ufo.body.acceleration.x = this.ACCELERATION;
+            this.monster.body.acceleration.x = this.ACCELERATION;
+        }
+        else if (this.cursor.up.isDown)
+        {
+            this.ufo.body.acceleration.y = -this.ACCELERATION;
+            this.monster.body.acceleration.y = -this.ACCELERATION;
+        }
+        else if (this.cursor.down.isDown)
+        {
+            this.ufo.body.acceleration.y = this.ACCELERATION;
+            this.monster.body.acceleration.y = this.ACCELERATION;
+        }
         else
         {
             this.ufo.body.acceleration.x = 0;
@@ -67,14 +88,23 @@ class mainState extends Phaser.State
         this.ufo.body.angularAcceleration = 200;
         this.ufo.body.maxAngular = 200;
     };
+    private configMONSTER()
+    {
+        this.monster = this.add.sprite(300.0, 100.0, 'monster');
+        this.physics.enable(this.monster);
+        this.monster.body.collideWorldBounds = true;
+        this.monster.anchor.setTo(0.5, 0.5);
+        this.monster.body.bounce.setTo(1.0);
+        this.monster.body.maxVelocity.setTo(150, 150);
+    }
 
     private configPICKUPS():void
     {
-        this.pickups.enableBody = true;
-        this.pickups = this.add.group();
-        this.map.createFromObjects('pickups', 101, 'pickup', 0, true, false, this.pickups);
+       // this.pickups.enableBody = true;
+        //this.pickups = this.add.group();
+        //this.map.createFromObjects('pickups', 101, 'pickup', 0, true, false, this.pickups);
 
-        /*var positions:Point[] = [
+        var positions:Point[] = [
             new Point(300, 125), new Point(300, 475),
             new Point(125, 300), new Point(475, 300),
             new Point(175, 175), new Point(425, 175),
@@ -88,7 +118,7 @@ class mainState extends Phaser.State
             this.pickup.body.angularVelocity = 200;
             this.pickup.body.maxVelocity = 200;
             this.add.existing(this.pickup);
-        }*/
+        }
     }
 }
 class SimpleGame {

@@ -20,6 +20,7 @@ var mainState = (function (_super) {
         this.load.image('pickup', 'assets/Pickup_low.png');
         this.load.image('background', 'assets/Background_low.png');
         this.load.image('pickup', 'assets/Pickup_low.png');
+        this.load.image('monster', 'assets/monster_low.png');
         this.game.load.tilemap('tilemap', 'assets/tiles.json', null, Phaser.Tilemap.TILED_JSON);
         this.physics.startSystem(Phaser.Physics.ARCADE);
     };
@@ -27,22 +28,31 @@ var mainState = (function (_super) {
         _super.prototype.create.call(this);
         this.configMAP();
         this.configUFO();
+        this.configMONSTER();
         this.configPICKUPS();
     };
     mainState.prototype.update = function () {
         _super.prototype.update.call(this);
         this.physics.arcade.collide(this.ufo, this.walls);
+        this.physics.arcade.collide(this.monster, this.walls);
+        if (this.monster.overlap(this.ufo)) {
+            this.ufo.kill();
+        }
         if (this.cursor.left.isDown) {
             this.ufo.body.acceleration.x = -this.ACCELERATION;
+            this.monster.body.acceleration.x = -this.ACCELERATION;
         }
         else if (this.cursor.right.isDown) {
             this.ufo.body.acceleration.x = this.ACCELERATION;
+            this.monster.body.acceleration.x = this.ACCELERATION;
         }
         else if (this.cursor.up.isDown) {
             this.ufo.body.acceleration.y = -this.ACCELERATION;
+            this.monster.body.acceleration.y = -this.ACCELERATION;
         }
         else if (this.cursor.down.isDown) {
             this.ufo.body.acceleration.y = this.ACCELERATION;
+            this.monster.body.acceleration.y = this.ACCELERATION;
         }
         else {
             this.ufo.body.acceleration.x = 0;
@@ -69,25 +79,32 @@ var mainState = (function (_super) {
         this.ufo.body.maxAngular = 200;
     };
     ;
+    mainState.prototype.configMONSTER = function () {
+        this.monster = this.add.sprite(300.0, 100.0, 'monster');
+        this.physics.enable(this.monster);
+        this.monster.body.collideWorldBounds = true;
+        this.monster.anchor.setTo(0.5, 0.5);
+        this.monster.body.bounce.setTo(1.0);
+        this.monster.body.maxVelocity.setTo(150, 150);
+    };
     mainState.prototype.configPICKUPS = function () {
-        this.pickups.enableBody = true;
-        this.pickups = this.add.group();
-        this.map.createFromObjects('pickups', 101, 'pickup', 0, true, false, this.pickups);
-        /*var positions:Point[] = [
+        // this.pickups.enableBody = true;
+        //this.pickups = this.add.group();
+        //this.map.createFromObjects('pickups', 101, 'pickup', 0, true, false, this.pickups);
+        var positions = [
             new Point(300, 125), new Point(300, 475),
             new Point(125, 300), new Point(475, 300),
             new Point(175, 175), new Point(425, 175),
             new Point(175, 425), new Point(425, 425),
         ];
-        for (var x = 0; x < positions.length; x++)
-        {
+        for (var x = 0; x < positions.length; x++) {
             var position = positions[x];
             this.pickup = new Phaser.Sprite(this.game, position.x, position.y, 'pickup');
             this.physics.enable(this.pickup);
             this.pickup.body.angularVelocity = 200;
             this.pickup.body.maxVelocity = 200;
             this.add.existing(this.pickup);
-        }*/
+        }
     };
     return mainState;
 })(Phaser.State);

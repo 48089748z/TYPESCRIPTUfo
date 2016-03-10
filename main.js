@@ -6,6 +6,7 @@ var __extends = (this && this.__extends) || function (d, b) {
 };
 var Point = Phaser.Point;
 var DisplayObject = PIXI.DisplayObject;
+var Sprite = PIXI.Sprite;
 var mainState = (function (_super) {
     __extends(mainState, _super);
     function mainState() {
@@ -36,6 +37,7 @@ var mainState = (function (_super) {
         this.physics.arcade.collide(this.ufo, this.walls);
         this.physics.arcade.collide(this.monster, this.walls);
         if (this.monster.overlap(this.ufo)) {
+            this.ufo = this.add.sprite(this.ufo.body.x, this.ufo.body.y, 'pickup');
             this.ufo.kill();
         }
         if (this.cursor.left.isDown) {

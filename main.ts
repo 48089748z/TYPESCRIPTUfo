@@ -2,6 +2,7 @@
 
 import Point = Phaser.Point;
 import DisplayObject = PIXI.DisplayObject;
+import Sprite = PIXI.Sprite;
 class mainState extends Phaser.State
 {
     game: Phaser.Game;
@@ -40,7 +41,10 @@ class mainState extends Phaser.State
         super.update();
         this.physics.arcade.collide(this.ufo, this.walls);
         this.physics.arcade.collide(this.monster, this.walls);
-        if (this.monster.overlap(this.ufo)){this.ufo.kill()}
+        if (this.monster.overlap(this.ufo)) {
+            this.ufo = this.add.sprite(this.ufo.body.x, this.ufo.body.y, 'pickup');
+            this.ufo.kill()
+        }
         if (this.cursor.left.isDown)
         {
             this.ufo.body.acceleration.x = -this.ACCELERATION;

@@ -35,7 +35,7 @@ var mainState = (function (_super) {
     mainState.prototype.update = function () {
         _super.prototype.update.call(this);
         this.physics.arcade.collide(this.ufo, this.walls);
-        this.physics.arcade.collide(this.monster, this.walls);
+        this.physics.arcade.overlap(this.ufo, this.pickups, this.getPickup, null, this);
         if (this.monster.overlap(this.ufo)) {
             this.ufo = this.add.sprite(this.ufo.body.x, this.ufo.body.y, 'pickup');
             this.ufo.kill();
@@ -60,6 +60,9 @@ var mainState = (function (_super) {
             this.ufo.body.acceleration.x = 0;
             this.ufo.body.acceleration.y = 0;
         }
+    };
+    mainState.prototype.getPickup = function (ufo, overlappedPickup) {
+        overlappedPickup.kill();
     };
     mainState.prototype.configMAP = function () {
         this.map = this.game.add.tilemap('tilemap');
@@ -90,9 +93,8 @@ var mainState = (function (_super) {
         this.monster.body.maxVelocity.setTo(150, 150);
     };
     mainState.prototype.configPICKUPS = function () {
-        // this.pickups.enableBody = true;
-        //this.pickups = this.add.group();
         //this.map.createFromObjects('pickups', 101, 'pickup', 0, true, false, this.pickups);
+        this.pickups = this.add.group();
         var positions = [
             new Point(300, 125), new Point(300, 475),
             new Point(125, 300), new Point(475, 300),
@@ -100,16 +102,26 @@ var mainState = (function (_super) {
             new Point(175, 425), new Point(425, 425),
         ];
         for (var x = 0; x < positions.length; x++) {
-            var position = positions[x];
-            this.pickup = new Phaser.Sprite(this.game, position.x, position.y, 'pickup');
-            this.physics.enable(this.pickup);
-            this.pickup.body.angularVelocity = 200;
-            this.pickup.body.maxVelocity = 200;
-            this.add.existing(this.pickup);
+            var pickup = new Pickup(this.game, positions[x].x, positions[x].y, 'pickup', 0);
+            this.pickups.add(pickup);
+            this.add.existing(pickup);
         }
+        this.pickups.enableBody = true;
     };
     return mainState;
 })(Phaser.State);
+var Pickup = (function (_super) {
+    __extends(Pickup, _super);
+    function Pickup(game, x, y, key, frame) {
+        _super.call(this, game, x, y, key, frame);
+        this.anchor.setTo(0.5, 0.5);
+    }
+    Pickup.prototype.update = function () {
+        _super.prototype.update.call(this);
+        this.angle = this.angle + 1;
+    };
+    return Pickup;
+})(Phaser.Sprite);
 var SimpleGame = (function () {
     function SimpleGame() {
         this.game = new Phaser.Game(600, 600, Phaser.AUTO, 'gameDiv');

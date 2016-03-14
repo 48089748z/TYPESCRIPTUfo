@@ -7,7 +7,6 @@ class mainState extends Phaser.State
 {
     game: Phaser.Game;
     private pickups:Phaser.Group;
-    private pickup:Phaser.Sprite;
     private ufo:Phaser.Sprite;
     private monster:Phaser.Sprite;
     private cursor:Phaser.CursorKeys;
@@ -40,8 +39,9 @@ class mainState extends Phaser.State
     {
         super.update();
         this.physics.arcade.collide(this.ufo, this.walls);
-        this.physics.arcade.collide(this.monster, this.walls);
-        if (this.monster.overlap(this.ufo)) {
+        this.physics.arcade.overlap(this.ufo, this.pickups, this.getPickup, null, this);
+        if (this.monster.overlap(this.ufo))
+        {
             this.ufo = this.add.sprite(this.ufo.body.x, this.ufo.body.y, 'pickup');
             this.ufo.kill()
         }
@@ -70,6 +70,10 @@ class mainState extends Phaser.State
             this.ufo.body.acceleration.x = 0;
             this.ufo.body.acceleration.y = 0;
         }
+    }
+    getPickup(ufo:Phaser.Sprite, overlappedPickup:Pickup):void
+    {
+        overlappedPickup.kill();
     }
     private configMAP()
     {
@@ -104,10 +108,8 @@ class mainState extends Phaser.State
 
     private configPICKUPS():void
     {
-       // this.pickups.enableBody = true;
-        //this.pickups = this.add.group();
         //this.map.createFromObjects('pickups', 101, 'pickup', 0, true, false, this.pickups);
-
+        this.pickups = this.add.group();
         var positions:Point[] = [
             new Point(300, 125), new Point(300, 475),
             new Point(125, 300), new Point(475, 300),
@@ -116,13 +118,26 @@ class mainState extends Phaser.State
         ];
         for (var x = 0; x < positions.length; x++)
         {
-            var position = positions[x];
-            this.pickup = new Phaser.Sprite(this.game, position.x, position.y, 'pickup');
-            this.physics.enable(this.pickup);
-            this.pickup.body.angularVelocity = 200;
-            this.pickup.body.maxVelocity = 200;
-            this.add.existing(this.pickup);
+            var pickup = new Pickup(this.game, positions[x].x, positions[x].y, 'pickup', 0);
+            this.pickups.add(pickup);
+            this.add.existing(pickup);
+
         }
+        this.pickups.enableBody = true;
+    }
+}
+class Pickup extends Phaser.Sprite
+{
+
+    constructor(game:Phaser.Game, x:number, y:number, key:string|Phaser.RenderTexture|Phaser.BitmapData|PIXI.Texture, frame:string|number) {
+        super(game, x, y, key, frame);
+        this.anchor.setTo(0.5,0.5);
+    }
+
+    update():void
+    {
+        super.update();
+        this.angle = this.angle+1;
     }
 }
 class SimpleGame {

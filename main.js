@@ -35,9 +35,9 @@ var mainState = (function (_super) {
     mainState.prototype.update = function () {
         _super.prototype.update.call(this);
         this.physics.arcade.collide(this.ufo, this.walls);
+        this.physics.arcade.collide(this.monster, this.walls);
         this.physics.arcade.overlap(this.ufo, this.pickups, this.getPickup, null, this);
         if (this.monster.overlap(this.ufo)) {
-            this.ufo = this.add.sprite(this.ufo.body.x, this.ufo.body.y, 'pickup');
             this.ufo.kill();
         }
         if (this.cursor.left.isDown) {
@@ -74,7 +74,7 @@ var mainState = (function (_super) {
     mainState.prototype.configUFO = function () {
         this.ufo = this.add.sprite(this.world.centerX, this.world.centerY, 'ufo');
         this.ufo.anchor.setTo(0.5, 0.5);
-        this.physics.enable(this.ufo);
+        this.physics.enable(this.ufo, Phaser.Physics.ARCADE);
         this.cursor = this.input.keyboard.createCursorKeys();
         this.ufo.body.maxVelocity.setTo(this.MAX_SPEED, this.MAX_SPEED); // x, y
         this.ufo.body.drag.setTo(this.DRAG, this.DRAG);
@@ -86,7 +86,7 @@ var mainState = (function (_super) {
     ;
     mainState.prototype.configMONSTER = function () {
         this.monster = this.add.sprite(300.0, 100.0, 'monster');
-        this.physics.enable(this.monster);
+        this.physics.enable(this.monster, Phaser.Physics.ARCADE);
         this.monster.body.collideWorldBounds = true;
         this.monster.anchor.setTo(0.5, 0.5);
         this.monster.body.bounce.setTo(1.0);
@@ -103,8 +103,8 @@ var mainState = (function (_super) {
         ];
         for (var x = 0; x < positions.length; x++) {
             var pickup = new Pickup(this.game, positions[x].x, positions[x].y, 'pickup', 0);
-            this.pickups.add(pickup);
             this.add.existing(pickup);
+            this.pickups.add(pickup);
         }
         this.pickups.enableBody = true;
     };
@@ -115,6 +115,7 @@ var Pickup = (function (_super) {
     function Pickup(game, x, y, key, frame) {
         _super.call(this, game, x, y, key, frame);
         this.anchor.setTo(0.5, 0.5);
+        this.game.physics.enable(this, Phaser.Physics.ARCADE);
     }
     Pickup.prototype.update = function () {
         _super.prototype.update.call(this);
